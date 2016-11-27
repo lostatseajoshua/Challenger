@@ -4,8 +4,17 @@
   "description": "API service for hanlding challenges for head to head games",
   "main": "app.js",
   "scripts": {
+    "start": "node app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lostatseajoshua/Challenger.git"
+  },
+  "bugs": {
+    "url": "https://github.com/lostatseajoshua/Challenger/issues"
+  },
+  "homepage": "https://github.com/lostatseajoshua/Challenger",
   "keywords": [
     "server",
     "rest",
