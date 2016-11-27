@@ -1,0 +1,18 @@
+{
+  "name": "challenger",
+  "version": "1.0.0",
+  "description": "API service for hanlding challenges for head to head games",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "server",
+    "rest",
+    "api",
+    "challenge",
+    "games"
+  ],
+  "author": "Joshua Alvarado",
+  "license": "MIT"
+}
