@@ -2,11 +2,13 @@
  * Module dependencies.
  */
 const express = require('express');
+const compression = require('compression');
 
 /**
  * Express configuration.
  */
 const app = express();
+app.use(compression());
 
 /**
  * Express configuration.
