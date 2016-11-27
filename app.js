@@ -3,12 +3,17 @@
  */
 const express = require('express');
 const compression = require('compression');
-
+const bodyParser = require('body-parser');
 /**
  * Express configuration.
  */
 const app = express();
 app.use(compression());
+
+// parse application/json
+app.use(bodyParser.json());
+// support encoded bodies
+app.use(bodyParser.urlencoded({ extended: true }));
 
 /**
  * Express configuration.
