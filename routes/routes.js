@@ -22,29 +22,30 @@ router.get('/api/', (req, res) => {
 });
 
 /**
-* Get challenges.
+* Get and post to challenges.
 */
 router.route('/api/challenges')
 .get(api.getChallenges)
+.post(api.postChallenge);
 
 /**
-* Post, put, delete a challenge by id.
+*  Put and delete a challenge by id.
 */
 router.route('/api/challenges/:challengeId')
-.post(api.postChallenge)
 .put(api.putChallenge)
 .delete(api.deleteChallenge);
 
 /**
-* Get teams.
+* Get and post to teams.
 */
-router.get('/api/teams', api.getTeams);
+router.route('/api/teams')
+.get(api.getTeams)
+.post(api.postTeam);
 
 /**
-* Post, put, delete a team by id.
+* Put and delete a team by id.
 */
 router.route('/api/teams/:teamId')
-.post(api.postTeam)
 .put(api.putTeam)
 .delete(api.deleteTeam);
 
