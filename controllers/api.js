@@ -9,8 +9,8 @@ exports.getChallenges = function get(req, res) {
 };
 
 /**
-* POST /api/challenges/:challengeId
-* Created a new challenge.
+* POST /api/challenges/
+* Create a new challenge.
 */
 exports.postChallenge = function post(req, res) {
     res.status(201).send("Created new challenge");
@@ -41,16 +41,16 @@ exports.getTeams = function get(req, res) {
 };
 
 /**
-* POST /api/teams/:teamId
-* Create new challenges.
+* POST /api/teams
+* Create a new team.
 */
 exports.postTeam = function post(req, res) {
     res.status(201).send("Created new team");
 }
 
 /**
-* POST /api/teams
-* Create new team.
+* POST /api/teams/:teamId
+* Update a team by id.
 */
 exports.putTeam = function put(req, res) {
     res.status(201).send("Updated a team");
