@@ -21,7 +21,7 @@ exports.postChallenge = function post(req, res) {
 * Updated a new challenge.
 */
 exports.putChallenge = function put(req, res) {
-    res.status(201).send("Update challenge");
+    res.status(204).send("Update challenge");
 }
 
 /**
@@ -53,7 +53,7 @@ exports.postTeam = function post(req, res) {
 * Update a team by id.
 */
 exports.putTeam = function put(req, res) {
-    res.status(201).send("Updated a team");
+    res.status(204).send("Updated a team");
 }
 
 /**
