@@ -1,9 +1,12 @@
+'use strict';
+
 /**
  * Module dependencies.
  */
 const express = require('express');
 const compression = require('compression');
 const bodyParser = require('body-parser');
+const router = require('./routes/routes');
 /**
  * Express configuration.
  */
@@ -14,6 +17,8 @@ app.use(compression());
 app.use(bodyParser.json());
 // support encoded bodies
 app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use(router);
 
 /**
  * Express configuration.
