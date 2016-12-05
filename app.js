@@ -3,10 +3,10 @@
 /**
  * Module dependencies.
  */
-const express = require('express');
-const compression = require('compression');
-const bodyParser = require('body-parser');
-const router = require('./routes/routes');
+const express       = require('express');
+const compression   = require('compression');
+const bodyParser    = require('body-parser');
+const router        = require('./routes/routes');
 /**
  * Express configuration.
  */
