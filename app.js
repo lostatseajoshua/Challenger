@@ -7,10 +7,22 @@ const express       = require('express');
 const compression   = require('compression');
 const bodyParser    = require('body-parser');
 const router        = require('./routes/routes');
+const mongoose      = require('mongoose');
+
 /**
  * Express configuration.
  */
 const app = express();
+
+/**
+ * Connect to MongoDB.
+ */
+mongoose.connect('mongodb://localhost/challenger');
+mongoose.connection.on('error', () => {
+  console.error('MongoDB Connection Error. Please make sure that MongoDB is running.');
+  process.exit(1);
+});
+
 app.use(compression());
 
 // parse application/json
