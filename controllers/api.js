@@ -452,6 +452,25 @@ exports.postPlayer = function postPlayer(req, res) {
             return;
         }
         res.status(201).send(newPlayer);
+exports.putPlayer = function putPlayer(req, res) {
+    const playerId = req.params.playerId;
+
+    if (!mongoose.Types.ObjectId.isValid(playerId)) {
+        res.status(403).send("Invalid player id");
+        return;
+    }
+
+    Player.findByIdAndUpdate(playerId, { name: req.body.name }, (err, player) => {
+        if (err) {
+            res.status(403).send(`${err}`);
+            return;
+        }
+        if (!player) {
+            res.status(403).send('No player updated');
+            return;
+        }
+
+        res.status(201).json(player);
     });
 }
 
