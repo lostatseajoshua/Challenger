@@ -341,10 +341,22 @@ exports.getTeams = function get(req, res) {
 
 /**
 * POST /api/teams
-* Create a new team.
+* Create a new team
 */
 exports.postTeam = function post(req, res) {
-    res.status(201).send("Created new team");
+    const teamName = req.body.name;
+    if (!teamName) {
+        res.status(403).send("Request body missing name");
+        return;
+    }
+    const newTeam = new Team({ name: teamName });
+    newTeam.save((err) => {
+        if (err) {
+            res.status(403).send(`${err}`);
+            return;
+        }
+        res.status(201).json(newTeam);
+    });
 }
 
 /**
