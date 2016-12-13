@@ -176,6 +176,77 @@ exports.deleteGame = function game(req, res) {
         res.status(201).json(game);
     });
 }
+
+/**
+* PUT /api/games/:gameId/start
+* Start game
+*/
+exports.startGame = function game(req, res) {
+    const gameId = req.params.gameId;
+
+    if (!mongoose.Types.ObjectId.isValid(gameId)) {
+        res.status(403).send("Invalid player id");
+        return;
+    }
+
+    Game.findById(gameId, (err, game) => {
+        if (err) {
+            res.status(403).send(`${err}`);
+            return;
+        }
+
+        if (!game) {
+            res.status(403).send('player not found');
+            return;
+        }
+
+        game.start(() => {
+            game.save((err, game) => {
+                if (err) {
+                    res.status(403).send(`${err}`);
+                    return;
+                }
+                res.status(201).json(game);
+            });
+        });
+    });
+}
+
+/**
+* PUT /api/games/:gameId/finish
+* Finish game
+*/
+exports.finishGame = function game(req, res) {
+    const gameId = req.params.gameId;
+
+    if (!mongoose.Types.ObjectId.isValid(gameId)) {
+        res.status(403).send("Invalid player id");
+        return;
+    }
+
+    Game.findById(gameId, (err, game) => {
+        if (err) {
+            res.status(403).send(`${err}`);
+            return;
+        }
+
+        if (!game) {
+            res.status(403).send('player not found');
+            return;
+        }
+
+        game.finish(() => {
+            game.save((err, game) => {
+                if (err) {
+                    res.status(403).send(`${err}`);
+                    return;
+                }
+                res.status(201).json(game);
+            });
+        });
+    });
+}
+
 }
 
 /**
