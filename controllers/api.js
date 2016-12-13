@@ -42,7 +42,7 @@ exports.postGame = function game(req, res) {
                             res.status(403).send(`${err}`);
                             return;
                         }
-                        res.status(201).send(game);
+                        res.status(201).json(game);
                     });
                 }
                 return;
@@ -62,7 +62,7 @@ exports.postGame = function game(req, res) {
                             res.status(403).send(`${err}`);
                             return;
                         }
-                        res.status(201).send(game);
+                        res.status(201).json(game);
                     });
                 }
             });
@@ -73,7 +73,7 @@ exports.postGame = function game(req, res) {
                 res.status(403).send(`${err}`);
                 return;
             }
-            res.status(201).send(game);
+            res.status(201).json(game);
         });
     }
 }
@@ -123,7 +123,7 @@ exports.addTeam = function game(req, res) {
                             res.status(403).send(`${err}`);
                             return;
                         }
-                        res.status(201).send(game);
+                        res.status(201).json(game);
                     });
                 }
                 return;
@@ -320,7 +320,7 @@ exports.gameScore = function game(req, res) {
                 return;
             }
 
-            res.status(201).send(saveGame);
+            res.status(201).json(saveGame);
         });
     });
 }
@@ -382,6 +382,8 @@ exports.putTeam = function put(req, res, next) {
         } else {
             res.status(403).send('No team found');
         }
+
+        res.status(201).json(team);
     });
 }
 
@@ -451,7 +453,10 @@ exports.postPlayer = function postPlayer(req, res) {
             res.status(403).send(`${err}`);
             return;
         }
-        res.status(201).send(newPlayer);
+        res.status(201).json(newPlayer);
+    });
+}
+
 exports.putPlayer = function putPlayer(req, res) {
     const playerId = req.params.playerId;
 
