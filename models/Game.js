@@ -10,7 +10,7 @@ const gameSchema = new Schema({
   started_at: Date,
   ended_at: Date,
   teams: [Schema.Types.ObjectId],
-  score: [Score.schema]
+  scores: [Score.schema]
 });
 
 gameSchema.methods.start = function start(completion) {
