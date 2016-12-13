@@ -7,7 +7,7 @@ const Schema    = mongoose.Schema;
 
 // create a schema
 const gameSchema = new Schema({
-  created_at: Date,
+  started_at: Date,
   ended_at: Date,
   teams: [Schema.Types.ObjectId],
   score: [Score.schema]
