@@ -327,10 +327,16 @@ exports.gameScore = function game(req, res) {
 
 /**
 * GET /api/teams
-* List of teams.
+* List of teams
 */
 exports.getTeams = function get(req, res) {
-    res.json({ teams: [] });
+    Team.find({}, (err, teams) => {
+        if (err) {
+            res.status(403).send(`${err}`);
+            return;
+        }
+        res.status(200).json(teams);
+    });
 };
 
 /**
