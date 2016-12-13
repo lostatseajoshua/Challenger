@@ -151,11 +151,31 @@ exports.addTeam = function game(req, res) {
 }
 
 /**
-* DELETE /api/challenges/:challengeId
-* Delete a challenge.
+* DELETE /api/games/:gameId
+* Delete a game
 */
-exports.deleteChallenge = function deleteChallenge(req, res) {
-    res.status(204).send("Delete challenge");
+exports.deleteGame = function game(req, res) {
+    const gameId = req.params.gameId;
+
+    if (!mongoose.Types.ObjectId.isValid(gameId)) {
+        res.status(403).send("Invalid player id");
+        return;
+    }
+
+    Game.findByIdAndRemove(gameId, (err, game) => {
+        if (err) {
+            res.status(403).send(`${err}`);
+            return;
+        }
+
+        if (!game) {
+            res.status(403).send('No game found');
+            return;
+        }
+
+        res.status(201).json(game);
+    });
+}
 }
 
 /**
