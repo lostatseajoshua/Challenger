@@ -13,16 +13,11 @@ const gameSchema = new Schema({
   score: [Score.schema]
 });
 
-// create a model using schema
-const Game = mongoose.model('Game', gameSchema);
-
-// on every save, add the date
-gameSchema.pre('save', (next) => {
-  if (!this.created_at) {
-      this.created_at = new Date();
+gameSchema.methods.start = function start(completion) {
+  if (!this.started_at) {
+    // game is already started
+    this.started_at = new Date();
   }
-  next();
-});
 
 gameSchema.prototype.complete = function finishGame(completion) {
   if (ended_at) {
