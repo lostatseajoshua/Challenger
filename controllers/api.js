@@ -247,6 +247,82 @@ exports.finishGame = function game(req, res) {
     });
 }
 
+/**
+* PUT /api/games/:gameId/score
+* Update score of game
+*/
+exports.gameScore = function game(req, res) {
+    const gameId = req.params.gameId;
+    const teamId = req.body.teamId;
+    const points = req.body.points;
+
+    if (!mongoose.Types.ObjectId.isValid(gameId)) {
+        res.status(403).send('Invalid game id');
+        return;
+    }
+
+    if (!teamId || !mongoose.Types.ObjectId.isValid(teamId)) {
+        res.status(403).send('Invalid team id');
+        return;
+    }
+
+    if (!points) {
+        return;
+    }
+
+    Game.findById(gameId, (err, game) => {
+        if (err) {
+            res.status(403).send(`${err}`);
+            return;
+        }
+
+        if (!game) {
+            res.status(403).send('Game not found');
+            return;
+        }
+
+        if (!game.started_at) {
+            res.status(403).send('Game not started');
+            return;
+        }
+
+        if (game.ended_at) {
+            res.status(403).send('Game has ended');
+            return;
+        }
+
+        const scores = game.scores;
+
+        if (scores.length <= 0) {
+            res.status(403).send('Game has no scores');
+            return;
+        }
+
+        var updated = false;
+
+        for (var i = 0; i < scores.length; i++) {
+            const score = scores[i];
+            if (score.team == teamId) {
+                score.points = points;
+                updated = true;
+                break;
+            }
+        }
+
+        if (!updated) {
+            res.status(403).send('No score found to update');
+            return;
+        }
+
+        game.save((err, saveGame) => {
+            if (err) {
+                res.status(403).send(`${err}`);
+                return;
+            }
+
+            res.status(201).send(saveGame);
+        });
+    });
 }
 
 /**
