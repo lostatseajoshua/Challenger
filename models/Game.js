@@ -19,13 +19,15 @@ gameSchema.methods.start = function start(completion) {
     this.started_at = new Date();
   }
 
-gameSchema.prototype.complete = function finishGame(completion) {
-  if (ended_at) {
+  completion();
+}
+
+gameSchema.methods.finish = function finish(completion) {
+  if (!this.ended_at && this.started_at) {
     // game is already completed
-    return;
+    this.ended_at = new Date();
   }
 
-  ended_at = new Date();
   completion();
 }
 
