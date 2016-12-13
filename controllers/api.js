@@ -412,4 +412,18 @@ exports.deleteTeam = function deleteTeam(req, res) {
     });
 }
 
+/**
+* GET /api/players/
+* Get all players
+*/
+exports.getPlayers = function getPlayers(req, res) {
+    Player.find({}, (err, players) => {
+        if (err) {
+            res.status(403).send(`${err}`);
+            return;
+        }
+        res.status(200).json(players);
+    });
+}
+
 }
