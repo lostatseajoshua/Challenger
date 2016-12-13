@@ -386,9 +386,30 @@ exports.putTeam = function put(req, res, next) {
 }
 
 /**
-* POST /api/teams/:teamId
-* Delete a team by id.
+* DELETE /api/teams/:teamId
+* Delete a team by id
 */
 exports.deleteTeam = function deleteTeam(req, res) {
-    res.status(204).send("Deleted a team");
+    const teamId = req.params.teamId;
+
+    if (!mongoose.Types.ObjectId.isValid(teamId)) {
+        res.status(403).send('Team id is not valid');
+        return;
+    }
+
+    Team.findByIdAndRemove(teamId, (err, team) => {
+        if (err) {
+            res.status(403).send(`${err}`);
+            return;
+        }
+
+        if (!team) {
+            res.status(403).send('No team found');
+            return;
+        }
+
+        res.status(201).json(team);
+    });
+}
+
 }
