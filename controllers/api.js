@@ -10,11 +10,17 @@ const Team = require('../models/team');
 const Player = require('../models/player');
 
 /**
-* POST /api/challenges/
-* Create a new challenge.
+* GET /api/games/
+* Get all the games
 */
-exports.postChallenge = function post(req, res) {
-    res.status(201).send("Created new challenge");
+exports.getGames = function getGames(req, res) {
+    Game.find({}, (err, games) => {
+        if (err) {
+            res.status(403).send('${err}');
+            return;
+        }
+        res.json(games);
+    });
 }
 
 /**
