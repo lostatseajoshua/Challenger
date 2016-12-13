@@ -31,5 +31,8 @@ gameSchema.methods.finish = function finish(completion) {
   completion();
 }
 
+// create a model using schema
+const Game = mongoose.model('Game', gameSchema);
+
 // make this available to our users in our Node applications
 module.exports = Game;
