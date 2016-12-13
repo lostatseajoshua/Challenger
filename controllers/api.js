@@ -426,4 +426,32 @@ exports.getPlayers = function getPlayers(req, res) {
     });
 }
 
+/**
+* POST /api/players/
+* Create a new player
+*/
+exports.postPlayer = function postPlayer(req, res) {
+    const username = req.body.username;
+    const name = req.body.name;
+
+    if (!username) {
+        res.status(401).send('Missing player username');
+        return;
+    }
+
+    if (!name) {
+        res.status(401).send('Missing player name');
+        return;
+    }
+
+    const newPlayer = new Player({ username: `${username}`, name: `${name}` });
+
+    newPlayer.save((err) => {
+        if (err) {
+            res.status(403).send(`${err}`);
+            return;
+        }
+        res.status(201).send(newPlayer);
+    });
+}
 }
