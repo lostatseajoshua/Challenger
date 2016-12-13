@@ -454,4 +454,56 @@ exports.postPlayer = function postPlayer(req, res) {
         res.status(201).send(newPlayer);
     });
 }
+
+/**
+* PUT /api/players/:playerId/addTeam
+* Add a team to player
+*/
+exports.putPlayerTeam = function addTeamToPlayer(req, res) {
+    const playerId = req.params.playerId;
+    const teamId = req.body.teamId;
+
+    if (!mongoose.Types.ObjectId.isValid(playerId)) {
+        res.status(403).send("Invalid player id");
+        return;
+    }
+
+    if (!mongoose.Types.ObjectId.isValid(teamId)) {
+        res.status(403).send("Invalid team id");
+        return;
+    }
+
+    const teamQuery = Team.findById(teamId);
+
+    Player.findById(playerId, (err, player) => {
+        if (err) {
+            res.status(403).send(`${err}`);
+            return;
+        }
+        if (!player) {
+            res.status(403).send('player not found');
+            return;
+        }
+
+        teamQuery.exec((err, team) => {
+            if (err) {
+                res.status(403).send(`${err}`);
+                return;
+            }
+
+            if (!team) {
+                res.status(403).send('Team not found');
+                return;
+            }
+
+            player.team = team._id;
+            player.save((err, player) => {
+                if (err) {
+                    res.status(403).send(`${err}`);
+                    return;
+                }
+                res.status(201).json(player);
+            });
+        });
+    });
 }
