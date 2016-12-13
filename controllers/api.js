@@ -377,10 +377,9 @@ exports.putTeam = function put(req, res, next) {
             return;
         }
 
-        if (team) {
-            res.status(201).json(team);
-        } else {
-            res.status(403).send('No team found');
+        if (!team) {
+            res.status(401).send('No team found');
+            return;
         }
 
         res.status(201).json(team);
