@@ -361,10 +361,28 @@ exports.postTeam = function post(req, res) {
 
 /**
 * POST /api/teams/:teamId
-* Update a team by id.
+* Update a team by id
 */
-exports.putTeam = function put(req, res) {
-    res.status(204).send("Updated a team");
+exports.putTeam = function put(req, res, next) {
+    const teamId = req.params.teamId;
+
+    if (!mongoose.Types.ObjectId.isValid(teamId)) {
+        res.status(403).send('Team id is not valid');
+        return;
+    }
+
+    Team.findByIdAndUpdate(teamId, { name: req.body.name }, { new: true }, (err, team) => {
+        if (err) {
+            res.status(403).send(`${err}`);
+            return;
+        }
+
+        if (team) {
+            res.status(201).json(team);
+        } else {
+            res.status(403).send('No team found');
+        }
+    });
 }
 
 /**
