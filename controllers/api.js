@@ -1,12 +1,13 @@
 'use strict';
 
 /**
-* GET /api/challenges
-* List of challenges.
+* Module dependencies.
 */
-exports.getChallenges = function get(req, res) {
-    res.json({ challenges: [] });
-};
+const mongoose = require('mongoose');
+const Game = require('../models/game');
+const Score = require('../models/score');
+const Team = require('../models/team');
+const Player = require('../models/player');
 
 /**
 * POST /api/challenges/
