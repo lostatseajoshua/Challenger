@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 const Schema   = mongoose.Schema
 // create a schema
 const playerSchema = new Schema({
-  name: String,
+  name: { type: String, minlength: 1 },
   username: { type: String, required: true, unique: true, minlength: 1 },
   team: Schema.Types.ObjectId,
   created_at: Date,
@@ -17,7 +17,7 @@ const Player = mongoose.model('Player', playerSchema);
 // on every save, add the date
 playerSchema.pre('save', (next) => {
   if (!this.created_at) {
-      this.created_at = new Date();
+    this.created_at = new Date();
   }
   next();
 });
