@@ -9,6 +9,7 @@ https://mochajs.org/#arrow-functions
 */
 const assert    = require('assert');
 const request   = require('supertest');
+const Team      = require('../models/team');
 
 /**
 * App route test.
@@ -100,4 +101,37 @@ describe('Express App', () => {
             });
         });
     });
+});
+
+/**
+* Model test.
+*/
+
+describe('Model test', () => {
+    describe('#team tests', () => {
+        var testTeamId;
+
+        before('Before add the test team', (done) => {
+            const newTeam = new Team({ name: 'Testing team 12345' });
+            newTeam.save((err, newTeam) => {
+                if (newTeam) {
+                    testTeamId = newTeam._id;
+                }
+                done(err);
+            });
+        });
+
+        after('After remove the test team', (done) => {
+            Team.findByIdAndRemove(testTeamId, (err, team) => {
+                done(err);
+            });
+        });
+
+        it('Should retrieve a team by the name Testing team 12345', (done) => {
+            Team.findOne({ name: 'Testing team 12345' }, (err, team) => {
+                assert(team.created_at);
+                done(err);
+            });
+        });
+    })
 });
