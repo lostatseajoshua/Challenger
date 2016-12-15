@@ -9,9 +9,10 @@ https://mochajs.org/#arrow-functions
 */
 const assert = require('assert');
 const request = require('supertest');
-const Team = require('../models/Team');
-const Game = require('../models/Game');
-const Score = require('../models/Score');
+const Team = require('../models/team');
+const Game = require('../models/game');
+const Score = require('../models/score');
+const Player = require('../models/player');
 
 /**
 * App route test.
@@ -198,7 +199,7 @@ describe('Model test', () => {
         var testScore;
         var testTeamId;
 
-        before('Before add the test score', (done) => {
+        before('Before add the test score and team', (done) => {
             const newTeam = new Team({ name: 'Testing team 12345' });
             newTeam.save((err, team) => {
                 if (err) {
@@ -243,6 +244,61 @@ describe('Model test', () => {
 
         it('Should have 0 points', (done) => {
             assert(testScore.points === 0);
+            done();
+        });
+    });
+
+    describe('#player tests', () => {
+        var testPlayerId;
+        var testPlayer;
+        var testTeamId;
+
+        before('Before add the test player and team', (done) => {
+            const newTeam = new Team({ name: 'Testing team 12345' });
+
+            newTeam.save((err, team) => {
+                if (err) {
+                    done(err);
+                    return;
+                }
+
+                assert(team);
+                testTeamId = team._id;
+
+                const newPlayer = new Player({ name: 'Test Player 12345', username: 'testPlayer12345', team: testTeamId });
+                newPlayer.save((err, player) => {
+                    assert(player);
+                    testPlayerId = player._id;
+                    testPlayer = player;
+                    done(err);
+                });
+            });
+        });
+
+        after('After remove the test score and team', (done) => {
+            Player.findByIdAndRemove(testPlayerId, (err, player) => {
+                assert(player);
+
+                Team.findByIdAndRemove(testTeamId, (err, team) => {
+                    assert(team);
+                    done(err);
+                });
+            });
+        });
+
+        it('Should name of Test Player 12345', (done) => {
+            assert(testPlayer.name === 'Test Player 12345');
+            done();
+        });
+
+
+        it('Should username of testPlayer123', (done) => {
+            assert(testPlayer.username === 'testPlayer12345');
+            done();
+        });
+
+        it('Should be apart of test team', (done) => {
+            assert(testPlayer.team == testTeamId);
             done();
         });
     });
