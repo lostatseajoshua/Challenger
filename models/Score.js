@@ -3,6 +3,7 @@
  */
 const mongoose  = require('mongoose');
 const Schema    = mongoose.Schema;
+
 // create a schema
 const ScoreSchema = new Schema({
     team: { type: Schema.Types.ObjectId, required: true},
