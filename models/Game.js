@@ -1,7 +1,7 @@
 /**
  * Module dependencies.
  */
-const Score     = require('./Score');
+const Score     = require('./score');
 const mongoose  = require('mongoose');
 const Schema    = mongoose.Schema;
 
