@@ -9,7 +9,7 @@ https://mochajs.org/#arrow-functions
 */
 const assert    = require('assert');
 const request   = require('supertest');
-const Team      = require('../models/team');
+const Team      = require('../models/Team');
 
 /**
 * App route test.
