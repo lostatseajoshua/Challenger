@@ -7,10 +7,11 @@ https://mochajs.org/#arrow-functions
 /**
 * Module dependencies.
 */
-const assert    = require('assert');
-const request   = require('supertest');
-const Team      = require('../models/Team');
-const Game      = require('../models/Game');
+const assert = require('assert');
+const request = require('supertest');
+const Team = require('../models/Team');
+const Game = require('../models/Game');
+const Score = require('../models/Score');
 
 /**
 * App route test.
@@ -24,8 +25,8 @@ describe('Express App', () => {
     describe('#error routes', () => {
         it('Should return 404 on unknown routes', (done) => {
             request(app)
-            .get('/foo/bar')
-            .expect(404, done);
+                .get('/foo/bar')
+                .expect(404, done);
         });
     });
 
@@ -35,8 +36,8 @@ describe('Express App', () => {
     describe('#web routes', () => {
         it('base path should return 200', (done) => {
             request(app)
-            .get('/')
-            .expect(200, done);
+                .get('/')
+                .expect(200, done);
         });
     });
 
@@ -46,59 +47,59 @@ describe('Express App', () => {
     describe('#api routes', () => {
         it('base path should return 200', (done) => {
             request(app)
-            .get('/api/')
-            .expect(200, done);
+                .get('/api/')
+                .expect(200, done);
         });
 
         describe('#challenge routes', () => {
             it('challenges base path should return 200', (done) => {
                 request(app)
-                .get('/api/challenges')
-                .expect(200, done);
+                    .get('/api/challenges')
+                    .expect(200, done);
             });
 
             it('post to challenge should return 201', (done) => {
                 request(app)
-                .post('/api/challenges')
-                .expect(201, done);
+                    .post('/api/challenges')
+                    .expect(201, done);
             });
 
             it('update to challenges should return 204', (done) => {
                 request(app)
-                .put('/api/challenges/0')
-                .expect(204, done);
+                    .put('/api/challenges/0')
+                    .expect(204, done);
             });
 
             it('delete a challenge should return 204', (done) => {
                 request(app)
-                .delete('/api/challenges/0')
-                .expect(204, done);
+                    .delete('/api/challenges/0')
+                    .expect(204, done);
             });
         });
 
         describe('#team routes', () => {
             it('teams base path should return 200', (done) => {
                 request(app)
-                .get('/api/teams')
-                .expect(200, done);
+                    .get('/api/teams')
+                    .expect(200, done);
             });
 
             it('post to teams should return 201', (done) => {
                 request(app)
-                .post('/api/teams')
-                .expect(201, done);
+                    .post('/api/teams')
+                    .expect(201, done);
             });
 
             it('update to teams should return 204', (done) => {
                 request(app)
-                .put('/api/teams/0')
-                .expect(204, done);
+                    .put('/api/teams/0')
+                    .expect(204, done);
             });
 
             it('delete a team should return 204', (done) => {
                 request(app)
-                .delete('/api/teams/0')
-                .expect(204, done);
+                    .delete('/api/teams/0')
+                    .expect(204, done);
             });
         });
     });
@@ -111,13 +112,12 @@ describe('Model test', () => {
     describe('#team tests', () => {
         var testTeamId;
         var testTeam;
-        
+
         before('Before add the test team', (done) => {
             const newTeam = new Team({ name: 'Testing team 12345' });
             newTeam.save((err, team) => {
-                if (team) {
-                    testTeamId = team._id;
-                }
+                assert(team);
+                testTeamId = team._id;
                 done(err);
             });
         });
@@ -189,6 +189,60 @@ describe('Model test', () => {
             assert(!testGame.ended_at);
             testGame.finish()
             assert(testGame.ended_at);
+            done();
+        });
+    });
+
+    describe('#score tests', () => {
+        var testScoreId;
+        var testScore;
+        var testTeamId;
+
+        before('Before add the test score', (done) => {
+            const newTeam = new Team({ name: 'Testing team 12345' });
+            newTeam.save((err, team) => {
+                if (err) {
+                    done(err);
+                    return;
+                }
+
+                assert(team);
+                testTeamId = team._id;
+
+                const newScore = new Score({ team: testTeamId, points: 0 });
+                newScore.save((err, score) => {
+                    assert(score);
+                    testScoreId = score._id;
+                    testScore = score;
+                    done(err);
+                });
+            });
+        });
+
+        after('After remove the test score and team', (done) => {
+            Score.findByIdAndRemove(testScoreId, (err, score) => {
+                assert(score);
+
+                Team.findByIdAndRemove(testTeamId, (err, team) => {
+                    assert(team);
+                    done(err);
+                });
+            });
+        });
+
+        it('Should have a created_at date', (done) => {
+            assert(testScore.created_at);
+            done();
+        });
+
+
+        it('Should point to test team', (done) => {
+            assert(testScore.team == testTeamId);
+            done();
+        });
+
+        it('Should have 0 points', (done) => {
+            assert(testScore.points === 0);
             done();
         });
     });
