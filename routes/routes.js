@@ -57,6 +57,9 @@ router.route('/api/games/:gameId/start')
 router.route('/api/games/:gameId/finish')
     .put(api.finishGame);
 
+/**
+ * Add score to game
+ */
 router.route('/api/games/:gameId/score')
     .put(api.gameScore);
 
