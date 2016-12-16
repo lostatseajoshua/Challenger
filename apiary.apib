@@ -1,0 +1,396 @@
+FORMAT: 1A
+HOST: http://localhost/3000/api
+
+# Challenger
+
+An API for management of games between teams.
+
+## Games Collection [/games]
+
+### List All Games [GET]
+
++ Response 200 (application/json)
+
+        [
+            {
+                "_id" : "00000000001",
+                "scores" : 
+                [ 
+                    {
+                        "_id" : "584f02a6a1b6e24de34db885",
+                        "team" : "58498d130995001b021487ea",
+                        "points" : 5
+                    }
+                ],
+                "teams" : 
+                    [ 
+                        "00000001",
+                        "00000002"
+                    ],
+                 "__v" : 0
+            }
+        ]
+
+### Create a New Game [POST]
+
+You may create games initally with no teams or by sending the request 
+with the teams in the body. Teams can always be added on in the future
+as long as the game hasn't been started.
+
++ Request with no teams (application/json)
+
++ Request with teams (application/json)
+
+        {
+            "teams": [
+                    "000001",
+                    "000002"
+                ]
+        }
+
++ Response 201 (application/json)
+
+        {
+            "_id" : "00000000001",
+            "scores" : [ 
+                        {
+                            "_id" : "000001",
+                            "team" : "000001",
+                            "points" : 0
+                        },
+                        {
+                            "_id" : "000002",
+                            "team" : "000002",
+                            "points" : 0
+                        }
+                    ],
+            "teams" : [ 
+                   "000001",
+                   "000002"
+                 ],
+            "__v" : 0
+        }
+
+## Game [/games/{gameId}]
+
+### Delete a game [DELETE]
+
++ Response 201 (application/json)
+
+            {
+                "_id" : "00000000001",
+                "scores" : 
+                [ 
+                    {
+                        "_id" : "0000001",
+                        "team" : "0000001",
+                        "points" : 5
+                    },
+                    {
+                        "_id" : "0000002",
+                        "team" : "0000002",
+                        "points" : 5
+                    }
+                ],
+                "teams" : 
+                    [ 
+                        "00000001",
+                        "00000002"
+                    ],
+                 "__v" : 0
+            }
+
+## Start Game [/games/{gamesId}/start]
+
+### Starting a game [PUT]
+
++ Request (application/json)
+
++ Response 201 (application/json)
+
+        {
+            "_id" : "00000000001",
+            "scores" : [ 
+                        {
+                            "_id" : "000001",
+                            "team" : "000001",
+                            "points" : 5
+                        },
+                        {
+                            "_id" : "000002",
+                            "team" : "000002",
+                            "points" : 0
+                        }
+                    ],
+            "teams" : [ 
+                   "000001",
+                   "000002"
+                 ],
+            "started_at": "2016-12-12 00:33:42.782Z",
+            "__v" : 0
+        }
+
+## End Game [/games/{gamesId}/finish]
+
+### Ending a game [PUT]
+
++ Request (application/json)
+
++ Response 201 (application/json)
+
+        {
+            "_id" : "00000000001",
+            "scores" : [ 
+                        {
+                            "_id" : "000001",
+                            "team" : "000001",
+                            "points" : 5
+                        },
+                        {
+                            "_id" : "000002",
+                            "team" : "000002",
+                            "points" : 0
+                        }
+                    ],
+            "teams" : [ 
+                   "000001",
+                   "000002"
+                 ],
+            "started_at": "2016-12-12 00:33:42.782Z",
+            "ended_at": "2016-12-12 00:33:42.782Z",
+            "__v" : 0
+        }
+
+## Score [/games/{gameId}/score]
+
+### Add score to game [PUT]
+
++ Request (application/json)
+
+        {
+            "team": "0000001",
+            "points": 5
+        }
+
++ Response 201 (application/json)
+
+        {
+            "_id" : "00000000001",
+            "scores" : [ 
+                        {
+                            "_id" : "000001",
+                            "team" : "000001",
+                            "points" : 5
+                        },
+                        {
+                            "_id" : "000002",
+                            "team" : "000002",
+                            "points" : 0
+                        }
+                    ],
+            "teams" : [ 
+                   "000001",
+                   "000002"
+                 ],
+            "__v" : 0
+        }
+
+## Add team to game [/games/{gameId}/addTeam]
+
+### Add a team to a game [PUT]
+
++ Request (application/json)
+
+        {
+            "teams": [
+                    "000003",
+                ]
+        }
+
++ Response 201 (application/json)
+
+        {
+            "_id" : "0000001",
+            "scores" : [ 
+                        {
+                            "_id" : "000001",
+                            "team" : "000001",
+                            "points" : 0
+                        },
+                        {
+                            "_id" : "000002",
+                            "team" : "000002",
+                            "points" : 0
+                        },
+                        {
+                            "_id" : "000003",
+                            "team" : "000003",
+                            "points" : 0
+                        }
+                    ],
+            "teams" : [ 
+                   "000001",
+                   "000002",
+                   "000003"
+                 ],
+            "__v" : 0
+        }
+
+## Teams Collection [/teams]
+
+### List All Teams [GET]
+
++ Response 200 (application/json)
+
+        [
+            {
+                "_id" : "000000000001",
+                "name" : "teamNameB",
+                "__v" : 0
+            },
+            {
+                "_id" : "000000000002",
+                "name" : "teamNameB",
+                "__v" : 0
+            }
+        ]
+
+### Create a New Team [POST]
+
+You can create a new team with this route. It takes a JSON
+object containing a name of the team which must be unique.
+
++ Request (application/json)
+
+        {
+            "name": "teamName"
+        }
+
++ Response 201 (application/json)
+
+        {
+            "_id" : "000000000001",
+            "name" : "teamName",
+            "__v" : 0
+        }
+
+## Team [/teams/{teamId}]
+
+### Update a Team Name [PUT]
+
++ Request (application/json)
+
+        {
+            "name": "teamName"
+        }
+
++ Response 201 (application/json)
+
+        {
+            "_id" : "000000000001",
+            "name" : "teamName",
+            "__v" : 0
+        }
+        
+### Delete a Team [DELETE]
+
++ Response 201 (application/json)
+
+        {
+            "name": "teamB",
+            "id": "0"
+        }
+
+## Players Collection [/players]
+
+### Get players [GET]
+
++ Response 201 (application/json)
+
+        {
+            [
+                {
+                    "_id" : "00000000000001",
+                    "username" : "usernameA",
+                    "name" : "playerA",
+                    "__v" : 0,
+                    "team" : "000000000000001"
+                },
+                {
+                    "_id" : "000000000002",
+                    "username" : "usernameB",
+                    "name" : "playerB",
+                    "__v" : 0,
+                    "team" : "000000000000001"
+                }
+            ]
+        }
+
+### Create a player [POST]
+A player requires a name and a unique username. The username can not be changed in the future.
++ Request (application/json)
+
+        {
+            "name": "playerName",
+            "username": "username"
+        }
+        
++ Response 201 (application/json)
+
+        {
+            "_id" : "5846d6675221c6fa7c5ef8d1",
+            "username" : "username",
+            "name" : "playerName",
+            "__v" : 0,
+        }
+        
+## Player [/player/{playerId}]
+
+### Update a player's name [PUT]
+
++ Request (application/json)
+
+        {
+            "name": "playerName"
+        }
+
++ Response 201 (application/json)
+
+        {
+            "_id" : "0000001",
+            "username" : "username",
+            "name" : "playerName",
+            "__v" : 0,
+        }
+
+### Delete a player [DELETE]
+
++ Response 201 (application/json)
+
+        {
+            "_id" : "0000001",
+            "username" : "username",
+            "name" : "name",
+            "__v" : 0,                
+            "team" : "00001"
+        }
+
+## Player's team [/player/{playerId}/addTeam]
+
+### Add a player to a team [PUT]
+
++ Request (application/json)
+
+        {
+            "team": "00001"
+        }
+
++ Response 201 (application/json)
+
+        {
+            "_id" : "0000001",
+            "username" : "username",
+            "name" : "name",
+            "__v" : 0,                
+            "team" : "00001"
+        }

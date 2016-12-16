@@ -1,0 +1,37 @@
+{
+  "name": "challenger",
+  "version": "1.0.0",
+  "description": "API service for hanlding challenges for head to head games",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lostatseajoshua/Challenger.git"
+  },
+  "bugs": {
+    "url": "https://github.com/lostatseajoshua/Challenger/issues"
+  },
+  "homepage": "https://github.com/lostatseajoshua/Challenger",
+  "keywords": [
+    "server",
+    "rest",
+    "api",
+    "challenge",
+    "games"
+  ],
+  "author": "Joshua Alvarado",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "compression": "^1.6.2",
+    "express": "^4.14.0",
+    "mongoose": "^4.7.2"
+  },
+  "devDependencies": {
+    "mocha": "^3.2.0",
+    "supertest": "^2.0.1"
+  }
+}
