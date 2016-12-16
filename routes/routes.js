@@ -3,9 +3,9 @@
 /**
 * Module dependencies.
 */
-const express   = require('express');
-const router    = express.Router();
-const api       = require('../controllers/api');
+const express = require('express');
+const router = express.Router();
+const api = require('../controllers/api');
 
 /**
 * Primary app routes.
