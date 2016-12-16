@@ -31,50 +31,40 @@ exports.postGame = function game(req, res) {
     const newGame = new Game({ teams: [], scores: [] });
     const teamIds = req.body.teams;
 
+    const saveGame = game.save(err, (game) => {
+        if (err) {
+            res.status(403).send(`${err}`);
+            return;
+        }
+        res.status(201).json(game);
+    });
+
     if (teamIds && teamIds.length > 0) {
         var tasksToGo = teamIds.length;
 
         teamIds.forEach(function (id) {
             if (!mongoose.Types.ObjectId.isValid(id)) {
                 if (--tasksToGo === 0) {
-                    newGame.save((err, game) => {
-                        if (err) {
-                            res.status(403).send(`${err}`);
-                            return;
-                        }
-                        res.status(201).json(game);
-                    });
+                    saveGame();
                 }
                 return;
             }
 
             Team.findById(id, (err, team) => {
                 if (!err && team) {
-                    // if (!newGame.teams.includes(id)) {
-                    newGame.teams.push(id);
-                    newGame.scores.push(new Score({ team: id }));
-                    // }
+                    if (newGame.teams.indexOf(id) === -1) {
+                        newGame.teams.push(id);
+                        newGame.scores.push(new Score({ team: id }));
+                    }
                 }
 
                 if (--tasksToGo === 0) {
-                    newGame.save((err, game) => {
-                        if (err) {
-                            res.status(403).send(`${err}`);
-                            return;
-                        }
-                        res.status(201).json(game);
-                    });
+                    saveGame();
                 }
             });
         });
     } else {
-        newGame.save((err, game) => {
-            if (err) {
-                res.status(403).send(`${err}`);
-                return;
-            }
-            res.status(201).json(game);
-        });
+        saveGame();
     }
 }
 
@@ -115,35 +105,31 @@ exports.addTeam = function game(req, res) {
 
         var tasksToGo = teamIds.length;
 
+        const saveGame = game.save(err, (game) => {
+            if (err) {
+                res.status(403).send(`${err}`);
+                return;
+            }
+            res.status(201).json(game);
+        });
+
         teamIds.forEach(function (id) {
             if (!mongoose.Types.ObjectId.isValid(id)) {
                 if (--tasksToGo === 0) {
-                    game.save((err, game) => {
-                        if (err) {
-                            res.status(403).send(`${err}`);
-                            return;
-                        }
-                        res.status(201).json(game);
-                    });
+                    saveGame();
                 }
                 return;
             }
 
             Team.findById(id, (err, team) => {
                 if (!err && team) {
-                    // if (!game.teams.includes(id)) {
-                    game.teams.push(id);
-                    // }
+                    if (game.teams.indexOf(id) === -1) {
+                        game.teams.push(id);
+                    }
                 }
 
                 if (--tasksToGo === 0) {
-                    game.save((err, game) => {
-                        if (err) {
-                            res.status(403).send(`${err}`);
-                            return;
-                        }
-                        res.status(201).send(game);
-                    });
+                    saveGame();
                 }
             });
         });
