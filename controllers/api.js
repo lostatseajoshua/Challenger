@@ -221,6 +221,8 @@ exports.finishGame = function game(req, res) {
             return;
         }
 
+        if (!game.started_at) {
+            res.status(403).send('Game has not been started first');
             return;
         }
 
