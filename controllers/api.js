@@ -171,7 +171,7 @@ exports.startGame = function game(req, res) {
     const gameId = req.params.gameId;
 
     if (!mongoose.Types.ObjectId.isValid(gameId)) {
-        res.status(403).send("Invalid player id");
+        res.status(403).send("Invalid game id");
         return;
     }
 
@@ -182,7 +182,7 @@ exports.startGame = function game(req, res) {
         }
 
         if (!game) {
-            res.status(403).send('player not found');
+            res.status(403).send('Game not found');
             return;
         }
 
@@ -206,7 +206,7 @@ exports.finishGame = function game(req, res) {
     const gameId = req.params.gameId;
 
     if (!mongoose.Types.ObjectId.isValid(gameId)) {
-        res.status(403).send("Invalid player id");
+        res.status(403).send("Invalid game id");
         return;
     }
 
@@ -217,7 +217,12 @@ exports.finishGame = function game(req, res) {
         }
 
         if (!game) {
-            res.status(403).send('player not found');
+            res.status(403).send('Game not found');
+            return;
+        }
+
+        if (!game.started_at) {
+            res.status(403).send('Game has not been started first');
             return;
         }
 
