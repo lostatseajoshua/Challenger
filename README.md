@@ -1,5 +1,4 @@
 [![CircleCI](https://circleci.com/gh/lostatseajoshua/Challenger.svg?style=svg)](https://circleci.com/gh/lostatseajoshua/Challenger)
-[![Build Status](https://travis-ci.org/lostatseajoshua/Challenger.svg?branch=master)](https://travis-ci.org/lostatseajoshua/Challenger)
 [![Twitter: @alvaradojoshua0](https://img.shields.io/badge/contact-@alvaradojoshua0-blue.svg?style=flat)](https://twitter.com/alvaradojoshua0)
 
 # Challenger
