@@ -58,4 +58,4 @@ $ npm test
 Joshua Alvarado - [Twitter](https://www.twitter.com/alvaradojoshua0)
 
 ## License
-This project is released under the [MIT license](https://github.com/realm/jazzy/blob/master/LICENSE).
+This project is released under the [MIT license](https://github.com/lostatseajoshua/Challenger/blob/master/LICENSE).
